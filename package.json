@@ -1,5 +1,5 @@
 {
-  "name": "flecheaddict_repo",
+  "name": "flecheaddict_backend",
   "version": "1.0.0",
   "description": "Une petite app de mots fléchés",
   "type": "module",
