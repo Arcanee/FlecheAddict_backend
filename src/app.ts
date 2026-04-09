@@ -1,3 +1,4 @@
+import morganMiddleware from '#src/config/morganMiddleware.ts';
 import gridRouter from '#src/grid/grid.routes.ts';
 import { HttpException } from '#src/lib/exception.ts';
 import { getLogger } from '#src/lib/logger.ts';
@@ -9,12 +10,13 @@ const logger = getLogger();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morganMiddleware);
 
 // Request logging
-app.use((_request: Request, _response: Response, _next: NextFunction): void => {
-  logger.http('New request');
-  _next();
-});
+// app.use((_request: Request, _response: Response, _next: NextFunction): void => {
+//   logger.http('New request');
+//   _next();
+// });
 
 // Routers
 app.use('/api/grids', gridRouter);
@@ -28,7 +30,7 @@ app.use(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _next: unknown,
   ): void => {
-    console.error(error);
+    logger.error(error);
     if (error instanceof HttpException) {
       response.status(error.statusCode).send(error.message);
     } else {
